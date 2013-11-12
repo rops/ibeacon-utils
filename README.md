@@ -9,7 +9,7 @@ Set of classes to handle configuration and monitoring of iBeacons
 
 
 ## Beacon Configurator
-Import [header](BeaconConfigurator.h)
+Import `BeaconConfigurator.h`
 
 ``` objc
 // Initialize the configurator
@@ -22,19 +22,16 @@ BeaconConfigurator* configurator = [[BeaconConfigurator alloc] initWithDelegate:
 [configurator stopScan];
 
 // Configure Beacon
-// Check [header](BeaconConfiguratorDelegate.h) to see how to obtain the beacon identifiers
+// Check BeaconConfiguratorDelegate.h to see how to obtain the beacon identifiers
 [configurator configureBeacon:beaconIdentifier identifier withMajor:major andMinor:minor;]
 
 ```
 
 ## Beacon Configurator Delegate
-``` objc
 
-//It gets called each time the configurator discover new beacons. The discoveredBeacons array contains the identifiers of the discovered beacons
-- (void) didDiscoverdBeacons:(NSArray*)discoveredBeacons;//identifiers of beacons
+`didDiscoverdBeacons:(NSArray*)discoveredBeacons;` gets called each time the configurator discover new beacons. The discoveredBeacons array contains the identifiers of the discovered beacons
 
-```
-// Check [header](BeaconConfiguratorDelegate.h) to see other self-explanatory delegate's callbacks
+// Check ``BeaconConfiguratorDelegate.h` to see other self-explanatory delegate's callbacks
 
 ## Beacon Monitor
 Import [header](BeaconMonitor.h)
