@@ -9,6 +9,7 @@ Set of classes to handle configuration and monitoring of iBeacons
 
 
 ## Beacon Configurator
+## Warning: It works only with RBL BLEMini device (http://blemini/) but you can simply adapt to any device by changing the service UUID in BeaconConfigurator.m
 
 ``` objc
 #import "BeaconConfigurator.h"
@@ -63,5 +64,5 @@ Check `BeaconMonitor.h` to see other self-explanatory methods
 
 ## Beacon Monitor Delegate
 The method `nearestRegionsDidChange:(NSArray*)regionsIdentifier` gets called on the delegate each time the `nearestRegions` changes.
-
+Check `BeaconMonitorDelegate.h` to see other self-explanatory delegate's callbacks
 
