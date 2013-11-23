@@ -9,7 +9,7 @@ Set of classes to handle configuration and monitoring of iBeacons
 
 
 ## Beacon Configurator
-## Warning: It works only with RBL BLEMini device (http://blemini/) but you can simply adapt to any device by changing the service UUID in BeaconConfigurator.m
+Warning: It works only with RBL BLEMini device (http://blemini/) but you can simply adapt it to any device by changing the service UUID in BeaconConfigurator.m
 
 ``` objc
 #import "BeaconConfigurator.h"
