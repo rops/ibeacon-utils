@@ -13,4 +13,6 @@
 - (void) regionMonitoringUnsupported;
 - (void) regionMonitoringUnauthorized;
 - (void) nearestRegionsDidChange:(NSArray*)regionsIdentifier; //array of regions(identifiers) sorted by distance
+- (void) didEnterRegion:(NSString*) identifier;
+- (void) didExitRegion:(NSString*) identifier;
 @end

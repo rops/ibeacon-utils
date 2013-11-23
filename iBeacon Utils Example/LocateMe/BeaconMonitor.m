@@ -18,7 +18,6 @@ int const MAJOR_MINOR_MAX =  65535;
 @property (strong,nonatomic) NSMutableArray *distancesTracker;
 @property (strong,nonatomic) NSMutableArray *distancesTrackerSupport;
 @property (nonatomic,readwrite) NSArray* nearestRegions;
-@property (nonatomic) BOOL askedPermission;
 @end
 
 @implementation BeaconMonitor
@@ -91,6 +90,7 @@ int const MAJOR_MINOR_MAX =  65535;
                                                                        major:majorID
                                                                        minor:minorID
                                                                    identifier:name];
+//    newRegion.notifyEntryStateOnDisplay = YES;
     [self.regions setObject:newRegion forKey:name];
     //if is already monitoring
     if([[self.locationManager rangedRegions] count]>0){
@@ -103,15 +103,17 @@ int const MAJOR_MINOR_MAX =  65535;
         [self.delegate regionMonitoringUnsupported];
         return;
     }
-    if (self.askedPermission && [CLLocationManager authorizationStatus]!=kCLAuthorizationStatusAuthorized){
+
+    if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
         [self.delegate regionMonitoringUnauthorized];
         return;
-    }
-    self.askedPermission = YES;
-    for(NSString *identifier in self.regions){
-        [self startMonitoringRegion:self.regions[identifier]];
+    }else{
+        for(NSString *identifier in self.regions){
+            [self startMonitoringRegion:self.regions[identifier]];
+        }
     }
 }
+
 - (void) stopMonitoring{
     for(NSString *identifier in self.regions){
         [self stopMonitoringRegion:self.regions[identifier]];
@@ -134,13 +136,27 @@ int const MAJOR_MINOR_MAX =  65535;
 
     }
 }
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    if ([[self.locationManager rangedRegions] count]>0 && status==kCLAuthorizationStatusDenied){
+        [self.delegate regionMonitoringUnauthorized];
+        return;
+    }
+}
+- (void) locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    [self.delegate didEnterRegion:region.identifier];
+}
+- (void) locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
+    [self.delegate didExitRegion:region.identifier];
+}
 #pragma mark Internal methods
 
 - (void) startMonitoringRegion:(CLBeaconRegion*)region{
     [self.locationManager startRangingBeaconsInRegion:region];
+    [self.locationManager startMonitoringForRegion:region];
 }
 - (void) stopMonitoringRegion:(CLBeaconRegion*)region{
     [self.locationManager stopRangingBeaconsInRegion:region];
+    [self.locationManager stopMonitoringForRegion:region];
 }
 
 - (NSUInteger) indexOfMetadataDistanceFromIdentifier:(NSString*) identifier{

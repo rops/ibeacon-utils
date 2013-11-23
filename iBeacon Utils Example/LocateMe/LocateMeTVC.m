@@ -62,7 +62,12 @@
     self.regions = regionsIdentifier;
     [self.tableView reloadData];
 }
-
+- (void) didExitRegion:(NSString *)identifier{
+    NSLog(@"exit %@",identifier);
+}
+- (void) didEnterRegion:(NSString *)identifier{
+    NSLog(@"enter %@",identifier);    
+}
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
